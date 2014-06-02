@@ -1,0 +1,21 @@
+D, [2014-06-02T16:25:56.617363 #8838] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (14.6ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+I, [2014-06-02T16:25:56.649941 #8838]  INFO -- : Migrating to AddColumnsToStudyRecords2 (20140506052440)
+D, [2014-06-02T16:25:56.952263 #8838] DEBUG -- :   [1m[35m (285.2ms)[0m  ALTER TABLE `study_records` ADD `group_id` varchar(255)
+D, [2014-06-02T16:25:56.952857 #8838] DEBUG -- :   [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+D, [2014-06-02T16:25:56.967721 #8838] DEBUG -- :   [1m[35mSQL (0.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20140506052440')
+D, [2014-06-02T16:25:56.968184 #8838] DEBUG -- :   [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+D, [2014-06-02T16:29:12.883706 #8887] DEBUG -- :   [1m[36m (100.1ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+D, [2014-06-02T16:29:13.167908 #8887] DEBUG -- :   [1m[35m (283.4ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations` ON `schema_migrations` (`version`) 
+D, [2014-06-02T16:29:13.168818 #8887] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+I, [2014-06-02T16:29:13.169432 #8887]  INFO -- : Migrating to AddRolesMaskToUsers (20130718020519)
+D, [2014-06-02T16:29:13.179907 #8887] DEBUG -- :   [1m[35m (0.3ms)[0m  ALTER TABLE `users` ADD `roles_mask` int(11)
+E, [2014-06-02T16:29:13.179957 #8887] ERROR -- : Mysql2::Error: Table 'onlynet_prod.users' doesn't exist: ALTER TABLE `users` ADD `roles_mask` int(11)
+D, [2014-06-02T16:29:23.714588 #8917] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+D, [2014-06-02T16:30:13.943270 #8949] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+D, [2014-06-02T16:30:50.604671 #8979] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+D, [2014-06-02T16:34:52.233066 #9150] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+D, [2014-06-02T16:35:13.763568 #9182] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+D, [2014-06-02T16:37:38.430171 #9247] DEBUG -- :   [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+I, [2014-06-02T16:37:38.430676 #9247]  INFO -- : Migrating to AddRolesMaskToUsers (20130718020519)
+D, [2014-06-02T16:37:38.444471 #9247] DEBUG -- :   [1m[35m (0.2ms)[0m  ALTER TABLE `users` ADD `roles_mask` int(11)
+E, [2014-06-02T16:37:38.444515 #9247] ERROR -- : Mysql2::Error: Table 'onlynet_prod.users' doesn't exist: ALTER TABLE `users` ADD `roles_mask` int(11)

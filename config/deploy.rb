@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'drwho_models'
-set :repo_url, 'git@example.com:me/my_repo.git'
+set :repo_url, 'git@github.com:jasonlu/drwho_models.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -44,6 +44,7 @@ namespace :deploy do
     end
   end
 
+
   after :publishing, :restart
 
   after :restart, :clear_cache do
@@ -55,4 +56,14 @@ namespace :deploy do
     end
   end
 
+end
+
+
+namespace :db do
+  desc 'Migrate DB schema'
+  task :migrate do
+    run_locally do
+      execute "rake migrate rails_env=#{fetch :env}"
+    end
+  end
 end
