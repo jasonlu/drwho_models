@@ -36,6 +36,13 @@ set :repo_url, 'git@github.com:jasonlu/drwho_models.git'
 
 namespace :deploy do
 
+  desc 'Create symlink'
+  task :create_symlink
+    run do
+      execute "ln -s #{fetch :config_path}/database.yml #{fetch :release_path}/config/database.yml"
+    end
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
