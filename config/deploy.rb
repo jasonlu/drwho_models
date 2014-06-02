@@ -37,9 +37,9 @@ set :repo_url, 'git@github.com:jasonlu/drwho_models.git'
 namespace :deploy do
 
   desc 'Create symlink'
-  task :create_symlink
-    run do
-      execute "ln -s #{fetch :config_path}/database.yml #{fetch :release_path}/config/database.yml"
+  task :create_symlink do
+    on roles(:app) do |host|
+      execute :ln, "-s #{fetch :config_path}/database.yml #{fetch :release_path}/config/database.yml"
     end
   end
 
@@ -69,7 +69,8 @@ end
 namespace :db do
   desc 'Migrate DB schema'
   task :migrate do
-    run_locally do
+    #run_locally do
+    on roles(:app) do |host|
       execute "rake migrate rails_env=#{fetch :env}"
     end
   end
