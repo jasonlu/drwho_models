@@ -39,7 +39,7 @@ namespace :deploy do
   desc 'Create symlink'
   task :create_symlink do
     on roles(:app) do |host|
-      execute :ln, "-s #{fetch :config_path}/database.yml #{fetch :release_path}/config/database.yml"
+      execute :ln, "-s #{fetch :static_shares}/config/database.yml #{fetch :release_path}/config/database.yml"
     end
   end
 
@@ -52,7 +52,8 @@ namespace :deploy do
   end
 
 
-  after :publishing, :restart
+  #after :publishing, 
+  after :publishing, :create_symlink, :restart
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -71,7 +72,12 @@ namespace :db do
   task :migrate do
     #run_locally do
     on roles(:app) do |host|
-      execute "rake migrate rails_env=#{fetch :env}"
+      within "#{fetch :deploy_to}/current" do
+      #execute "cd #{fetch :deploy_to}/current && ls -al"
+      #execute "cd #{fetch :deploy_to}/current && echo $PATH"
+      #execute "cd #{fetch :deploy_to}/current && bundle exec rake migrate rails_env=#{fetch :env}"
+        execute :bundle, "exec rake migrate rails_env=#{fetch :env}"
+      end
     end
   end
 end
