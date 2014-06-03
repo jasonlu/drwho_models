@@ -1,6 +1,16 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
+# capistrano 3 New flow.
+# deploy:starting
+# deploy:started
+# deploy:reverting           - revert server(s) to previous release
+# deploy:reverted            - reverted hook
+# deploy:publishing
+# deploy:published
+# deploy:finishing_rollback  - finish the rollback, clean up everything
+# deploy:finished
+
 set :application, 'drwho_models'
 set :repo_url, 'git@github.com:jasonlu/drwho_models.git'
 
@@ -43,20 +53,39 @@ namespace :deploy do
     end
   end
 
+  desc "bundle_install"
+  task :bundle_install do
+    on roles(:app) do |host|
+      within "#{fetch :deploy_to}/current" do
+        execute :bundle, "install"
+      end
+    end
+  end
+
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
+      within "#{fetch :deploy_to}/current" do
+        execute :bundle, "exec thin stop -C #{release_path.join('config/thin.yml')}"
+        execute :bundle, "exec thin start -C #{release_path.join('config/thin.yml')}"
+      end
     end
   end
 
 
   #after :publishing, 
-  after :publishing, :create_symlink, :restart
+  after :published, :create_symlink do
+    Rake::Task["deploy:bundle_install"].invoke
+    #deploy.bundle_install
+    #deploy.restart
+  end
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
+
       # Here we can do anything such as:
       # within release_path do
       #   execute :rake, 'cache:clear'
@@ -73,9 +102,6 @@ namespace :db do
     #run_locally do
     on roles(:app) do |host|
       within "#{fetch :deploy_to}/current" do
-      #execute "cd #{fetch :deploy_to}/current && ls -al"
-      #execute "cd #{fetch :deploy_to}/current && echo $PATH"
-      #execute "cd #{fetch :deploy_to}/current && bundle exec rake migrate rails_env=#{fetch :env}"
         execute :bundle, "exec rake migrate rails_env=#{fetch :env}"
       end
     end
