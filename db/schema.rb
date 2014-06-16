@@ -281,11 +281,6 @@ ActiveRecord::Schema.define(version: 20140515042835) do
     t.string   "phone"
   end
 
-  add_index "user_profiles", ["firstname", "lastname"], name: "index_user_profiles_firstname_lastname", type: :fulltext
-  add_index "user_profiles", ["firstname"], name: "index_user_profiles_firstname", type: :fulltext
-  add_index "user_profiles", ["lastname", "firstname", "id_number", "education", "country", "address"], name: "index_user_profiles", type: :fulltext
-  add_index "user_profiles", ["lastname"], name: "index_user_profiles_lastname", type: :fulltext
-
   create_table "users", force: true, :options => "AUTO_INCREMENT = 1000" do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -309,7 +304,6 @@ ActiveRecord::Schema.define(version: 20140515042835) do
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_email", type: :fulltext
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
