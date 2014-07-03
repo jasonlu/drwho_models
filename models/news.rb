@@ -1,5 +1,6 @@
 class News < ActiveRecord::Base
   attr_accessible :user_id, :close_at, :content, :publish_at, :title
-  belongs_to :user
+  belongs_to :admin, :foreign_key => 'user_id'
+
   scope :letest, -> { where("publish_at IS NOT NULL AND (close_at IS NULL OR close_at >= ?)", DateTime.now).order(publish_at: :desc) }
 end

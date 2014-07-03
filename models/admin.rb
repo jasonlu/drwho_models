@@ -37,7 +37,9 @@ class Admin < ActiveRecord::Base
     if self.profile.nil?
       "NOT SET"
     else
-      self.profile.try(:lastname) + ' ' + self.profile.(:firstname)
+      lastname = self.profile.lastname || "Admin"
+      firstname = self.profile.firstname || ""
+      return lastname + ' ' + firstname
     end
 
   end
