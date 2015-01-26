@@ -4,26 +4,20 @@ class Ad < ActiveRecord::Base
 
 
   def self.select_ad(location)
-    total_weight = self.where("location = ?", location).select("id, sum(weight) as total_weight").first.total_weight
-    the_one = nil
+    #total_weight = self.where("location = ?", location).select("id, sum(weight) as total_weight").first.total_weight
+    total_weight = 100
     ads = self.where("location = ?", location).all
-    return the_one if ads.length == 0
+    return nil if ads.length == 0
     return ads.first if ads.length == 1
     ads.each do |ad|
-      chance = ((ad.weight / total_weight).to_f * 100).to_i
+      #chance = ((ad.weight / total_weight).to_f * 100).to_i
+      chance = ad.weight.to_i
       hit = rand(0..100)
-      #puts ad.link
-      #puts "Chances:" + ad.id.to_s
-      #puts chance
-      #puts "hit: " + hit.to_s
       if hit <= chance
-        #puts "hit on ad: " + ad.id.to_s
-        the_one = ad
-        break
+        return ad
       end
     end
-    the_one = ads.first if the_one.nil? 
-    return the_one
+    return ads.first
   end
 
   def link_tag
