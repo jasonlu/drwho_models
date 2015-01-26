@@ -3,5 +3,5 @@ class News < ActiveRecord::Base
   belongs_to :admin, :foreign_key => 'user_id'
   belongs_to :user, :foreign_key => 'user_id'
 
-  scope :letest, -> { where("publish_at IS NOT NULL AND (close_at IS NULL OR close_at >= ?)", DateTime.now).order(publish_at: :desc) }
+  scope :letest, -> { where("publish_at IS NOT NULL AND (close_at IS NULL OR close_at >= ?)", DateTime.now).order(publish_at: :desc).order(created_at: :desc) }
 end
